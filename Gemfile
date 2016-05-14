@@ -4,9 +4,12 @@ gem 'rails', '4.2.5.1'
 gem 'rails-api'
 gem 'spring', :group => :development
 gem 'sqlite3'
+gem 'cancancan'
+gem 'bcrypt-ruby', '~> 3.1.2', :require => 'bcrypt'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
+  gem 'pry'
 end
 
 # To use ActiveModel has_secure_password
