@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 describe User, :type => :model do
+  # NOTE: could also be done with https://github.com/thoughtbot/shoulda-matchers
+  let(:user){ FactoryGirl.build(:user) }
+  
   context "validations & creation" do
-    let(:user){ User.new(username: "bob_smith", password: "password123", role: "user") }
-
     it "can be saved successfully" do
       expect{ user.save! }.to change{ User.count }.by(1)
     end
@@ -31,6 +32,13 @@ describe User, :type => :model do
       user.role = 'moderator'
       user.valid?
       expect(user.errors).to have_key(:role)
+    end
+  end
+
+  context "relations" do
+    it "destroyes dependent characters" do
+      FactoryGirl.create(:character, user: user)
+      expect{ user.destroy }.to change{ Character.count }.by(-1)
     end
   end
 end

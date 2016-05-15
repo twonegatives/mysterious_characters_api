@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  scope :format => true, :constraints => {:format => 'json'} do
+    resources :characters, except: [:new, :edit]
+  end
+    
   get '*unmatched_route', to: 'application#not_found'
 
   # The priority is based upon order of creation: first created -> highest priority.
