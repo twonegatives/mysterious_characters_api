@@ -1,28 +1,18 @@
-== README
+== Mysterious Character Designer API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This project is an API for Users who want to share their fictional characters (e.g. superheroes, monsters and so on) and get feedback on them from others.
 
-Things you may want to cover:
+Here are the initial assesment requirements that had to be fulfilled during the challenge:
 
-* Ruby version
+* It must be API (REST, JSON).
+* It must be secured by basic auth.
+* It must contain User model - with different roles (admin, user, guest).
+* It must limit access to given part of API depending on User role.
+* Admin has access to everything.
+* User can read all, create all, but update and deleted only his records.
+* Guest has only read access.
+* There should be at least 2 different models except User.
+* Those models should be in relation (1 to many).
+* Seeds file with at least one record of sample data for each model.
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Project launch is as simple as cloning, seeding the database and firing it up.
