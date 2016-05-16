@@ -10,5 +10,6 @@ class User < ActiveRecord::Base
   validates :username, length: { in: 3..20 }
   validates :role, inclusion: %w[user admin]
 
-  has_many :characters, dependent: :destroy
+  has_many :characters, dependent: :destroy, inverse_of: :user
+  has_many :comments, dependent: :destroy, inverse_of: :user
 end

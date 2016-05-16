@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   scope :format => true, :constraints => {:format => 'json'} do
-    resources :characters, except: [:new, :edit]
+    resources :characters, except: [:new, :edit] do
+      resources :comments, only: [:index, :create, :destroy]
+    end
   end
     
   get '*unmatched_route', to: 'application#not_found'

@@ -1,22 +1,22 @@
 require 'rails_helper'
 
-describe CharactersController, type: :request do
+describe "Characters", type: :request do
   describe "GET 'index'" do
     context "admin" do
       let(:user){ FactoryGirl.create(:admin) }
       let!(:character){ FactoryGirl.create(:character, user: user) }
-      it_behaves_like "#index free access", expected_chars_amount: 3
+      it_behaves_like "characters #index free access", expected_chars_amount: 3
     end
 
     context "user" do
       let(:user){ FactoryGirl.create(:user) }
       let!(:character){ FactoryGirl.create(:character, user: user) }
-      it_behaves_like "#index free access", expected_chars_amount: 3
+      it_behaves_like "characters #index free access", expected_chars_amount: 3
     end
 
     context "guest" do
       let(:user){ FactoryGirl.build(:guest) }
-      it_behaves_like "#index free access", expected_chars_amount: 2
+      it_behaves_like "characters #index free access", expected_chars_amount: 2
     end
   end
 
@@ -38,7 +38,7 @@ describe CharactersController, type: :request do
       it "gets 404 for wrong character_id" do
         get "/characters/100500.json", {}, {}
         expect(response.headers["Content-Type"]).to include "application/json"
-        expect(response.code).to eq "404"
+        expect(response).to have_http_status(404)
       end
     end
   end
@@ -59,7 +59,7 @@ describe CharactersController, type: :request do
       it "can not create characters" do
         post "/characters.json", {character: {name: 'godzilla', health: 50, strength: 10}}
         expect(response.headers["Content-Type"]).to include "application/json"
-        expect(response.code).to eq "403"
+        expect(response).to have_http_status(403)
       end
     end
   end
@@ -67,7 +67,6 @@ describe CharactersController, type: :request do
   describe "PUT 'update'" do
     context "admin" do
       let(:user){ FactoryGirl.create(:admin) }
-      let(:auth_header){ { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(user.username, user.password) } }
       context "foreign character" do
         let(:foreign_char){ FactoryGirl.create(:character) }
         
@@ -80,7 +79,6 @@ describe CharactersController, type: :request do
 
     context "user" do
       let(:user){ FactoryGirl.create(:user) }
-      let(:auth_header){ { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(user.username, user.password) } }
       
       context "owned character" do
         let(:owned_char){ FactoryGirl.create(:character, user: user) }
@@ -93,13 +91,13 @@ describe CharactersController, type: :request do
         it "returns json 200" do
           put "/characters/#{owned_char.id}.json", {character: {strength: 10, name: "donatello"}}, auth_header
           expect(response.headers["Content-Type"]).to include "application/json"
-          expect(response.code).to eq "200"
+          expect(response).to have_http_status(200)
         end
 
         it "returns json 400 if param missing" do
           put "/characters/#{owned_char.id}.json", {another_key: {strength: 10, name: "donatello"}}, auth_header
           expect(response.headers["Content-Type"]).to include "application/json"
-          expect(response.code).to eq "400"
+          expect(response).to have_http_status(400)
         end
       end
 
@@ -108,7 +106,7 @@ describe CharactersController, type: :request do
         it "gets json 403" do
           put "/characters/#{foreign_char.id}.json", {character: {name: "master splinter"}}, auth_header
           expect(response.headers["Content-Type"]).to include "application/json"
-          expect(response.code).to eq "403"
+          expect(response).to have_http_status(403)
         end
       end
 
@@ -121,7 +119,7 @@ describe CharactersController, type: :request do
         it "gets json 403" do
           put "/characters/#{foreign_char.id}.json", {character: {name: "master splinter"}}, {}
           expect(response.headers["Content-Type"]).to include "application/json"
-          expect(response.code).to eq "403"
+          expect(response).to have_http_status(403)
         end
       end
     end
@@ -130,7 +128,6 @@ describe CharactersController, type: :request do
   describe "DELETE 'destroy'" do
     context "admin" do
       let(:user){ FactoryGirl.create(:admin) }
-      let(:auth_header){ { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(user.username, user.password) } }
       context "foreign character" do
         let!(:foreign_char){ FactoryGirl.create(:character) }
         it "removes it successfully" do
@@ -141,17 +138,15 @@ describe CharactersController, type: :request do
 
     context "user" do
       let(:user){ FactoryGirl.create(:user) }
-      let(:auth_header){ { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(user.username, user.password) } }
       context "owned character" do
         let!(:owned_char){ FactoryGirl.create(:character, user: user) }
         it "removes it successfully" do
           expect{ delete "/characters/#{owned_char.id}.json", {}, auth_header }.to change{ Character.count }.by(-1)
         end
 
-        it "returns json 200" do
+        it "returns json 204" do
           delete "/characters/#{owned_char.id}.json", {}, auth_header
-          expect(response.headers["Content-Type"]).to include "application/json"
-          expect(response.code).to eq "200"
+          expect(response).to have_http_status(204)
         end
       end
 
@@ -160,7 +155,7 @@ describe CharactersController, type: :request do
         it "gets json 403" do
           delete "/characters/#{foreign_char.id}.json", {}, auth_header
           expect(response.headers["Content-Type"]).to include "application/json"
-          expect(response.code).to eq "403"
+          expect(response).to have_http_status(403)
         end
       end
     end
@@ -172,7 +167,7 @@ describe CharactersController, type: :request do
         it "gets json 403" do
           delete "/characters/#{foreign_char.id}.json", {}, {} 
           expect(response.headers["Content-Type"]).to include "application/json"
-          expect(response.code).to eq "403"
+          expect(response).to have_http_status(403)
         end
       end
     end

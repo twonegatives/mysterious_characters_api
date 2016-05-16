@@ -1,8 +1,6 @@
 require 'rails_helper'
 RSpec.shared_examples "character creation" do
 
-  let(:auth_header){ { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(user.username, user.password) } }
-
   before(:each) do
     post "/characters.json", {character: {name: 'godzilla', health: 50, strength: 10}}, auth_header
   end

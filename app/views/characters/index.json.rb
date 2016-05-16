@@ -1,6 +1,7 @@
 {
   :characters => @chars.map do |char|
     {
+      id:       char.id,
       name:     char.name,
       health:   char.health,
       strength: char.strength,

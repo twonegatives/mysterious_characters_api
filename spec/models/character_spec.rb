@@ -33,4 +33,12 @@ describe Character, type: :model do
       expect(character.errors).to have_key(:user)
     end
   end
+  
+  context "relations" do
+    it "destroyes dependent comments" do
+      character.save!
+      FactoryGirl.create(:comment, character: character)
+      expect{ character.destroy }.to change{ Comment.count }.by(-1)
+    end
+  end
 end

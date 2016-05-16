@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :user, class: User do
-    username{ Faker::Internet.user_name.first(18) }
+    username{ (Faker::Internet.user_name*3).first(18) }
     password{ Faker::Internet.password(10, 15) }
     role 'user'
 

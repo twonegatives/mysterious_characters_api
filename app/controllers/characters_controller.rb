@@ -39,7 +39,7 @@ class CharactersController < ApplicationController
     char = Character.find(params[:id].to_i)
     authorize! :destroy, char
     char.destroy
-    head :ok
+    head :no_content
   end
 
   private

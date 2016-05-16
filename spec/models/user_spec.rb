@@ -37,8 +37,15 @@ describe User, :type => :model do
 
   context "relations" do
     it "destroyes dependent characters" do
+      user.save!
       FactoryGirl.create(:character, user: user)
       expect{ user.destroy }.to change{ Character.count }.by(-1)
+    end
+    
+    it "destroyes dependent comments" do
+      user.save!
+      FactoryGirl.create(:comment, user: user)
+      expect{ user.destroy }.to change{ Comment.count }.by(-1)
     end
   end
 end
