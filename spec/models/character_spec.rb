@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Character, type: :model do
-  # NOTE: could also be done with https://github.com/thoughtbot/shoulda-matchers
   let!(:character){ FactoryGirl.build(:character) }
   
   context "validations & creation" do

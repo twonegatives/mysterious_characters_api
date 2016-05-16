@@ -1,9 +1,6 @@
 class User < ActiveRecord::Base
   has_secure_password
  
-  # NOTE: validations, callbacks and even relations would
-  # better be moved to service layer at some point in the future
-  
   validates :username, :role, :password, presence: true
   validates :username, uniqueness: true
   validates :password, length: { in: 6..20 }

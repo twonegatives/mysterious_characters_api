@@ -1,10 +1,2 @@
-{
-  id:       @char.id,
-  name:     @char.name,
-  health:   @char.health,
-  strength: @char.strength,
-  user: {
-    id:       @char.user.id,
-    username: @char.user.username
-  },
-}.to_json
+character_hash = render('character', char: @char)
+character_hash.to_json

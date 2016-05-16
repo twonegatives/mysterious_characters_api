@@ -1,8 +1,6 @@
 require 'rails_helper'
 RSpec.shared_examples "comments creation" do
 
-  let!(:character){ FactoryGirl.create(:character) }
-
   context "successfull creation" do
     before(:each) do
       post "/characters/#{character.id}/comments.json", {comment: {body: "wow that character rocks!"}}, auth_header

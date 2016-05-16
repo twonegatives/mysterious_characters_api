@@ -23,17 +23,17 @@ describe "Characters", type: :request do
   describe "GET 'show'" do
     context "admin" do
       let(:user){ FactoryGirl.create(:admin) }
-      it_behaves_like "#show free access"
+      it_behaves_like "characters #show free access"
     end
 
     context "user" do
       let(:user){ FactoryGirl.create(:user) }
-      it_behaves_like "#show free access"
+      it_behaves_like "characters #show free access"
     end
 
     context "guest" do
       let(:user){ FactoryGirl.build(:guest) }
-      it_behaves_like "#show free access"
+      it_behaves_like "characters #show free access"
 
       it "gets 404 for wrong character_id" do
         get "/characters/100500.json", {}, {}

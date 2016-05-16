@@ -1,5 +1,6 @@
 class GuestUser < User
   after_initialize :set_defaults
+  after_initialize :readonly!
 
   private
 

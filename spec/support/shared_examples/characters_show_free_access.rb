@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.shared_examples "#show free access" do
+RSpec.shared_examples "characters #show free access" do
   
   let!(:character){ FactoryGirl.create(:character, name: "godzilla", health: 50, strength: 10) }
   let!(:another_user){ FactoryGirl.create(:user, username: "Ash Kitchum") }
