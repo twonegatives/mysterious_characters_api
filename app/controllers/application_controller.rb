@@ -6,9 +6,10 @@ class ApplicationController < ActionController::API
   before_action :authenticate
 
   rescue_from(StandardError)                      { head 500, :content_type => "application/json" }
-  rescue_from(CanCan::AccessDenied)               { head 403, :content_type => "application/json" }
-  rescue_from(ActiveRecord::RecordNotFound)       { head 404, :content_type => "application/json" }
   rescue_from(ActionController::RoutingError)     { head 404, :content_type => "application/json" }
+  rescue_from(ActiveRecord::RecordNotFound)       { head 404, :content_type => "application/json" }
+  rescue_from(CanCan::AccessDenied)               { head 403, :content_type => "application/json" }
+  rescue_from(Errors::UnauthorizedError)          { head 401, :content_type => "application/json" }
   rescue_from(ActionController::ParameterMissing) { head 400, :content_type => "application/json" }
  
   
@@ -20,6 +21,7 @@ class ApplicationController < ActionController::API
   
   def authenticate
     @current_user = BasicHttpAuthenticator.process(request)
+    raise Errors::UnauthorizedError unless @current_user
   end
 
   def current_user

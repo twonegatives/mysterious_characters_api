@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   validates :username, uniqueness: true
   validates :password, length: { in: 6..20 }
   validates :username, length: { in: 3..20 }
-  validates :role, inclusion: %w[user admin]
+  validates :role, inclusion: %w[user admin guest]
 
   has_many :characters, dependent: :destroy, inverse_of: :user
   has_many :comments, dependent: :destroy, inverse_of: :user

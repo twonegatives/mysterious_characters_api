@@ -15,7 +15,7 @@ describe "Characters", type: :request do
     end
 
     context "guest" do
-      let(:user){ FactoryGirl.build(:guest) }
+      let(:user){ FactoryGirl.create(:guest) }
       it_behaves_like "characters #index free access", expected_chars_amount: 2
     end
   end
@@ -32,11 +32,11 @@ describe "Characters", type: :request do
     end
 
     context "guest" do
-      let(:user){ FactoryGirl.build(:guest) }
+      let(:user){ FactoryGirl.create(:guest) }
       it_behaves_like "characters #show free access"
 
       it "gets 404 for wrong character_id" do
-        get "/characters/100500.json", {}, {}
+        get "/characters/100500.json", {}, auth_header
         expect(response.headers["Content-Type"]).to include "application/json"
         expect(response).to have_http_status(404)
       end
@@ -55,9 +55,9 @@ describe "Characters", type: :request do
     end
 
     context "guest" do
-      let(:user){ FactoryGirl.build(:guest) }
+      let(:user){ FactoryGirl.create(:guest) }
       it "can not create characters" do
-        post "/characters.json", {character: {name: 'godzilla', health: 50, strength: 10}}
+        post "/characters.json", {character: {name: 'godzilla', health: 50, strength: 10}}, auth_header
         expect(response.headers["Content-Type"]).to include "application/json"
         expect(response).to have_http_status(403)
       end
@@ -113,11 +113,11 @@ describe "Characters", type: :request do
     end
 
     context "guest" do
-      let(:user){ FactoryGirl.build(:guest) }
+      let(:user){ FactoryGirl.create(:guest) }
       context "foreign character" do
         let(:foreign_char){ FactoryGirl.create(:character) }
         it "gets json 403" do
-          put "/characters/#{foreign_char.id}.json", {character: {name: "master splinter"}}, {}
+          put "/characters/#{foreign_char.id}.json", {character: {name: "master splinter"}}, auth_header
           expect(response.headers["Content-Type"]).to include "application/json"
           expect(response).to have_http_status(403)
         end
@@ -161,11 +161,11 @@ describe "Characters", type: :request do
     end
 
     context "guest" do
-      let(:user){ FactoryGirl.build(:guest) }
+      let(:user){ FactoryGirl.create(:guest) }
       context "foreign character" do
         let!(:foreign_char){ FactoryGirl.create(:character) }
         it "gets json 403" do
-          delete "/characters/#{foreign_char.id}.json", {}, {} 
+          delete "/characters/#{foreign_char.id}.json", {}, auth_header
           expect(response.headers["Content-Type"]).to include "application/json"
           expect(response).to have_http_status(403)
         end

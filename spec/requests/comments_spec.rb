@@ -11,7 +11,7 @@ describe "Comments", type: :request do
       it_behaves_like "comments #index free access"
     end
     context "guest" do
-      let(:user){ FactoryGirl.build(:guest) }
+      let(:user){ FactoryGirl.create(:guest) }
       it_behaves_like "comments #index free access"
     end
   end
@@ -27,7 +27,7 @@ describe "Comments", type: :request do
       it_behaves_like "comments creation"
     end
     context "guest" do
-      let(:user){ FactoryGirl.build(:guest) }
+      let(:user){ FactoryGirl.create(:guest) }
       it "can not create new comment" do
         post "/characters/#{character.id}/comments.json", {comment: {body: "wow that character rocks!"}}, auth_header
         expect(response.headers["Content-Type"]).to include "application/json"
@@ -64,7 +64,7 @@ describe "Comments", type: :request do
       end
     end
     context "guest" do
-      let(:user){ FactoryGirl.build(:guest) }
+      let(:user){ FactoryGirl.create(:guest) }
       context "foreign comment" do
         let!(:comment){ FactoryGirl.create(:comment) }
         it "can not remove" do
