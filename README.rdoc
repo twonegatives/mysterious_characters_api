@@ -1,8 +1,10 @@
-== Mysterious Character Designer API
 
-This project is an API for Users who want to share their fictional characters (e.g. superheroes, monsters and so on) and get feedback on them from others.
 
-Here are the initial assesment requirements that had to be fulfilled during the challenge:
+== TryCatch challenge
+
+Ruby code challenge was to implement an API for users who want to share their fictional characters (e.g. superheroes, monsters and so on) and get feedback on them from others.
+
+=== Assesment requirements
 
 * It must be API (REST, JSON).
 * It must be secured by basic auth.
@@ -14,5 +16,7 @@ Here are the initial assesment requirements that had to be fulfilled during the 
 * There should be at least 2 different models except User.
 * Those models should be in relation (1 to many).
 * Seeds file with at least one record of sample data for each model.
+
+=== Getting started
 
 Project launch is as simple as cloning, seeding the database and firing it up.
